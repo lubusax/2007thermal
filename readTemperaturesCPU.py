@@ -1,19 +1,21 @@
 # https://www.kernel.org/doc/Documentation/thermal/sysfs-api.txt
 
-def readThermalZoneTemperature(x, clip=True):
+def readCPUThermalZoneTemperature(CPUthermalZoneNumber):
   try:
-    with open("/sys/class/thermal/thermal_zone%d/temp" % x) as f:
+    with open("/sys/class/thermal/thermal_zone%d/temp" % CPUthermalZoneNumber) as f:
       temperatureMilliCelsius = int(f.read())
-      if clip:
-        temperatureMilliCelsius = max(0, temperatureMilliCelsius)
+      if temperatureMilliCelsius==0:
+        temperatureMilliCelsius = None # a non implemented sensor with a thermal_zone directory returns a reading of 0, don't ask me why
   except FileNotFoundError:
-    return 0
+    temperatureMilliCelsius = None
+    return temperatureMilliCelsius
 
   return temperatureMilliCelsius
 
-for i in range(0,20):
-    temperatureMilliCelsius = readThermalZoneTemperature(i)
-    if temperatureMilliCelsius>0:
-      print("Current temperature of thermal_zone %d : %4.1f °C" % (i,readThermalZoneTemperature(i)/1000))
+for CPUthermalZoneNumber in range(0,20):
+    temperatureMilliCelsius = readCPUThermalZoneTemperature(CPUthermalZoneNumber)
+    if temperatureMilliCelsius:
+      print("Current temperature of CPU thermal_zone %d : %4.1f °C" % (i,temperatureMilliCelsius/1000))
     else:
-      print("No valid Reading for thermal_zone %d" % i)
+      #print("No valid Reading for thermal_zone %d" % i)
+      pass
