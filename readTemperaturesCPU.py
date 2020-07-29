@@ -15,7 +15,7 @@ def readCPUThermalZoneTemperature(CPUthermalZoneNumber):
 for CPUthermalZoneNumber in range(0,20):
     temperatureMilliCelsius = readCPUThermalZoneTemperature(CPUthermalZoneNumber)
     if temperatureMilliCelsius:
-      print("Current temperature of CPU thermal_zone %d : %4.1f °C" % (i,temperatureMilliCelsius/1000))
+      print("Current temperature of CPU thermal_zone %d : %4.1f °C" % (CPUthermalZoneNumber,temperatureMilliCelsius/1000))
     else:
       #print("No valid Reading for thermal_zone %d" % i)
       pass
