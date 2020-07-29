@@ -5,7 +5,7 @@ def readCPUThermalZoneTemperature(CPUthermalZoneNumber):
     with open("/sys/class/thermal/thermal_zone%d/temp" % CPUthermalZoneNumber) as f:
       temperatureMilliCelsius = int(f.read())
       if temperatureMilliCelsius==0:
-        temperatureMilliCelsius = None # a non implemented sensor with a thermal_zone directory returns a reading of 0, don't ask me why
+        temperatureMilliCelsius = None # an existing thermal_zone directory with a non implemented sensor returns a reading of 0, don't ask me why
   except FileNotFoundError:
     temperatureMilliCelsius = None
     return temperatureMilliCelsius
